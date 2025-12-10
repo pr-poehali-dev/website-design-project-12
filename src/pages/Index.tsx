@@ -55,17 +55,17 @@ const Index = () => {
   ];
 
   const tasks: Task[] = [
-    { id: 'ЗДН-12345', orderId: 'ЗКЗ-5678', material: 'ЛДСП Egger', thickness: 18, color: 'Дуб Сонома', status: 'in_progress', priority: 'high', deadline: '2024-12-15' },
-    { id: 'ЗДН-12346', orderId: 'ЗКЗ-5679', material: 'ЛДСП Kronospan', thickness: 16, color: 'Белый', status: 'in_progress', priority: 'medium', deadline: '2024-12-16' },
-    { id: 'ЗДН-12347', orderId: 'ЗКЗ-5680', material: 'МДФ Premium', thickness: 22, color: 'Серый Графит', status: 'in_progress', priority: 'high', deadline: '2024-12-15' },
-    { id: 'ЗДН-12348', orderId: 'ЗКЗ-5681', material: 'ЛДСП Egger', thickness: 18, color: 'Венге', status: 'pending', priority: 'low', deadline: '2024-12-18' },
+    { id: 'ЗДН-12345', orderId: 'ЗКЗ-5678', material: 'ЛДСП Egger', thickness: 18, color: 'Дуб Сонома', status: 'in_progress', priority: 'high', deadline: '2025-12-15' },
+    { id: 'ЗДН-12346', orderId: 'ЗКЗ-5679', material: 'ЛДСП Kronospan', thickness: 16, color: 'Белый', status: 'in_progress', priority: 'medium', deadline: '2025-12-16' },
+    { id: 'ЗДН-12347', orderId: 'ЗКЗ-5680', material: 'МДФ Premium', thickness: 22, color: 'Серый Графит', status: 'in_progress', priority: 'high', deadline: '2025-12-15' },
+    { id: 'ЗДН-12348', orderId: 'ЗКЗ-5681', material: 'ЛДСП Egger', thickness: 18, color: 'Венге', status: 'pending', priority: 'low', deadline: '2025-12-18' },
   ];
 
   const materials: Material[] = [
-    { id: 'MAT-001', name: 'ЛДСП Egger 2800x2070x18', dimensions: '2800×2070×18мм', quantity: 47, unit: 'листов', batch: 'П-2024-1205', location: 'А-12' },
-    { id: 'MAT-002', name: 'ЛДСП Kronospan 2800x2070x16', dimensions: '2800×2070×16мм', quantity: 32, unit: 'листов', batch: 'П-2024-1203', location: 'А-15' },
-    { id: 'MAT-003', name: 'МДФ Premium 2800x2070x22', dimensions: '2800×2070×22мм', quantity: 18, unit: 'листов', batch: 'П-2024-1201', location: 'Б-03' },
-    { id: 'MAT-004', name: 'ДСП Standart 2750x1830x16', dimensions: '2750×1830×16мм', quantity: 64, unit: 'листов', batch: 'П-2024-1207', location: 'А-08' },
+    { id: 'MAT-001', name: 'ЛДСП Egger 2800x2070x18', dimensions: '2800×2070×18мм', quantity: 47, unit: 'листов', batch: 'П-2025-1205', location: 'А-12' },
+    { id: 'MAT-002', name: 'ЛДСП Kronospan 2800x2070x16', dimensions: '2800×2070×16мм', quantity: 32, unit: 'листов', batch: 'П-2025-1203', location: 'А-15' },
+    { id: 'MAT-003', name: 'МДФ Premium 2800x2070x22', dimensions: '2800×2070×22мм', quantity: 18, unit: 'листов', batch: 'П-2025-1201', location: 'Б-03' },
+    { id: 'MAT-004', name: 'ДСП Standart 2750x1830x16', dimensions: '2750×1830×16мм', quantity: 64, unit: 'листов', batch: 'П-2025-1207', location: 'А-08' },
   ];
 
   const getStatusColor = (status: MachineStatus) => {
@@ -315,7 +315,7 @@ const Index = () => {
                       <Badge className="status-active">В работе</Badge>
                       <Badge className={getPriorityColor('high')}>Высокий приоритет</Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground">Создано: 10.12.2024 14:30 • Иванов А.П.</p>
+                    <p className="text-sm text-muted-foreground">Создано: 10.12.2025 14:30 • Иванов А.П.</p>
                   </div>
                 </div>
               </CardHeader>
@@ -359,7 +359,7 @@ const Index = () => {
                         </div>
                         <div>
                           <label className="text-sm font-medium text-muted-foreground">Дата сдачи</label>
-                          <p className="text-lg font-mono font-semibold mt-1">15.12.2024</p>
+                          <p className="text-lg font-mono font-semibold mt-1">15.12.2025</p>
                         </div>
                         <div>
                           <label className="text-sm font-medium text-muted-foreground">Статус выполнения</label>
@@ -380,7 +380,7 @@ const Index = () => {
                           <div className="mt-2 border-2 border-dashed border-border rounded-lg p-8 bg-secondary/20 flex items-center justify-center">
                             <div className="text-center">
                               <Icon name="FileImage" size={48} className="mx-auto text-muted-foreground mb-2" />
-                              <p className="text-sm text-muted-foreground">КР-2024-1205-047.pdf</p>
+                              <p className="text-sm text-muted-foreground">КР-2025-1205-047.pdf</p>
                               <Button variant="link" className="mt-2">
                                 <Icon name="Eye" size={14} className="mr-1" />
                                 Просмотр
@@ -422,14 +422,14 @@ const Index = () => {
                         <TableRow>
                           <TableCell className="font-mono font-semibold">ПРТ-001</TableCell>
                           <TableCell>Петров С.И.</TableCell>
-                          <TableCell className="font-mono">10.12.2024 08:00</TableCell>
-                          <TableCell className="font-mono">10.12.2024 10:30</TableCell>
+                          <TableCell className="font-mono">10.12.2025 08:00</TableCell>
+                          <TableCell className="font-mono">10.12.2025 10:30</TableCell>
                           <TableCell className="text-right font-mono">47 шт</TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell className="font-mono font-semibold">ПРТ-002</TableCell>
                           <TableCell>Сидоров В.К.</TableCell>
-                          <TableCell className="font-mono">10.12.2024 10:45</TableCell>
+                          <TableCell className="font-mono">10.12.2025 10:45</TableCell>
                           <TableCell className="text-muted-foreground">В процессе</TableCell>
                           <TableCell className="text-right font-mono text-muted-foreground">—</TableCell>
                         </TableRow>
