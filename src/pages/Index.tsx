@@ -23,9 +23,12 @@ interface Machine {
 interface Task {
   id: string;
   orderId: string;
+  type: 'cutting' | 'edging';
   material: string;
   thickness: number;
   color: string;
+  edgeType?: string;
+  edgeColor?: string;
   status: TaskStatus;
   priority: 'high' | 'medium' | 'low';
   deadline: string;
@@ -55,10 +58,12 @@ const Index = () => {
   ];
 
   const tasks: Task[] = [
-    { id: 'ЗДН-12345', orderId: 'ЗКЗ-5678', material: 'ЛДСП Egger', thickness: 18, color: 'Дуб Сонома', status: 'in_progress', priority: 'high', deadline: '2025-12-15' },
-    { id: 'ЗДН-12346', orderId: 'ЗКЗ-5679', material: 'ЛДСП Kronospan', thickness: 16, color: 'Белый', status: 'in_progress', priority: 'medium', deadline: '2025-12-16' },
-    { id: 'ЗДН-12347', orderId: 'ЗКЗ-5680', material: 'МДФ Premium', thickness: 22, color: 'Серый Графит', status: 'in_progress', priority: 'high', deadline: '2025-12-15' },
-    { id: 'ЗДН-12348', orderId: 'ЗКЗ-5681', material: 'ЛДСП Egger', thickness: 18, color: 'Венге', status: 'pending', priority: 'low', deadline: '2025-12-18' },
+    { id: 'ЗДН-12345', orderId: 'ЗКЗ-5678', type: 'cutting', material: 'ЛДСП Egger', thickness: 18, color: 'Дуб Сонома', status: 'in_progress', priority: 'high', deadline: '2025-12-15' },
+    { id: 'ЗДН-12346', orderId: 'ЗКЗ-5679', type: 'cutting', material: 'ЛДСП Kronospan', thickness: 16, color: 'Белый', status: 'in_progress', priority: 'medium', deadline: '2025-12-16' },
+    { id: 'ЗДН-12347', orderId: 'ЗКЗ-5680', type: 'edging', material: 'МДФ Premium', thickness: 22, color: 'Серый Графит', edgeType: 'ПВХ 2мм', edgeColor: 'Графит', status: 'in_progress', priority: 'high', deadline: '2025-12-15' },
+    { id: 'ЗДН-12348', orderId: 'ЗКЗ-5681', type: 'cutting', material: 'ЛДСП Egger', thickness: 18, color: 'Венге', status: 'pending', priority: 'low', deadline: '2025-12-18' },
+    { id: 'ЗДН-12349', orderId: 'ЗКЗ-5682', type: 'edging', material: 'ЛДСП Egger', thickness: 18, color: 'Дуб Сонома', edgeType: 'АБС 1мм', edgeColor: 'Дуб', status: 'pending', priority: 'medium', deadline: '2025-12-16' },
+    { id: 'ЗДН-12350', orderId: 'ЗКЗ-5683', type: 'edging', material: 'ЛДСП Kronospan', thickness: 16, color: 'Белый', edgeType: 'Меламин 0.4мм', edgeColor: 'Белый', status: 'pending', priority: 'low', deadline: '2025-12-17' },
   ];
 
   const materials: Material[] = [
@@ -155,7 +160,7 @@ const Index = () => {
               data-active={activeView === 'task'}
             >
               <Icon name="FileText" size={16} className="mr-2" />
-              Задания на раскрой
+              Задания
             </Button>
             <Button
               variant={activeView === 'warehouse' ? 'default' : 'ghost'}
@@ -267,7 +272,10 @@ const Index = () => {
                         </Badge>
                         <div>
                           <p className="font-mono font-semibold">{task.id}</p>
-                          <p className="text-sm text-muted-foreground">{task.material} • {task.thickness}мм • {task.color}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {task.type === 'cutting' ? 'Раскрой' : 'Кромкооблицовка'} • {task.material} • {task.thickness}мм • {task.color}
+                            {task.edgeType && ` • Кромка: ${task.edgeType}`}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
@@ -291,22 +299,82 @@ const Index = () => {
           <div className="space-y-6 animate-fade-in">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold text-foreground">Задание на раскрой</h2>
-                <p className="text-muted-foreground mt-1">Детализация технологического задания</p>
+                <h2 className="text-3xl font-bold text-foreground">Производственные задания</h2>
+                <p className="text-muted-foreground mt-1">Список заданий на раскрой и кромкооблицовку</p>
               </div>
               <div className="flex gap-3">
-                <Button variant="outline">
-                  <Icon name="Printer" size={16} className="mr-2" />
-                  Печать маршрутного листа
-                </Button>
+                <Select defaultValue="all">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Тип задания" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Все задания</SelectItem>
+                    <SelectItem value="cutting">Раскрой</SelectItem>
+                    <SelectItem value="edging">Кромкооблицовка</SelectItem>
+                  </SelectContent>
+                </Select>
                 <Button>
-                  <Icon name="CheckCircle" size={16} className="mr-2" />
-                  Утвердить
+                  <Icon name="Plus" size={16} className="mr-2" />
+                  Новое задание
                 </Button>
               </div>
             </div>
 
-            <Card className="border-2">
+            <div className="grid gap-4">
+              {tasks.map(task => (
+                <Card key={task.id} className="border-2 hover:border-primary/50 transition-colors cursor-pointer">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <Icon 
+                            name={task.type === 'cutting' ? 'Grid3x3' : 'Layers'} 
+                            className="text-primary" 
+                            size={24} 
+                          />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-mono font-bold text-lg">{task.id}</h3>
+                            <Badge variant="outline" className="text-xs">
+                              {task.type === 'cutting' ? 'Раскрой' : 'Кромкооблицовка'}
+                            </Badge>
+                            <Badge className={getPriorityColor(task.priority)}>
+                              {task.priority === 'high' ? 'Высокий' : task.priority === 'medium' ? 'Средний' : 'Низкий'}
+                            </Badge>
+                            <Badge className={
+                              task.status === 'in_progress' ? 'status-active' : 
+                              task.status === 'completed' ? 'status-success' : 
+                              'status-idle'
+                            }>
+                              {task.status === 'in_progress' ? 'В работе' : 
+                               task.status === 'completed' ? 'Завершено' : 
+                               'Ожидание'}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground">
+                            Заказ: {task.orderId} • {task.material} • {task.thickness}мм • {task.color}
+                            {task.edgeType && ` • Кромка: ${task.edgeType} ${task.edgeColor}`}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <p className="text-xs text-muted-foreground">Срок сдачи</p>
+                          <p className="font-mono font-semibold">{task.deadline}</p>
+                        </div>
+                        <Button size="sm" variant="outline">
+                          <Icon name="Eye" size={16} className="mr-2" />
+                          Открыть
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <Card className="border-2 hidden">
               <CardHeader className="border-b border-border">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
