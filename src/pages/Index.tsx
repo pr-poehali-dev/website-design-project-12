@@ -113,7 +113,7 @@ const Index = () => {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-foreground">AutoPlast</h1>
-                  <p className="text-sm text-muted-foreground font-mono">Раскройный участок</p>
+                  <p className="text-sm text-muted-foreground font-mono"></p>
                 </div>
               </div>
             </div>
