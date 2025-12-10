@@ -112,7 +112,7 @@ const Index = () => {
                   <Icon name="Factory" className="text-primary" size={24} />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">MES Система</h1>
+                  <h1 className="text-2xl font-bold text-foreground">AutoPlast</h1>
                   <p className="text-sm text-muted-foreground font-mono">Раскройный участок</p>
                 </div>
               </div>
